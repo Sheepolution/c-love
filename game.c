@@ -5,8 +5,8 @@ void game_load () {
 	Player_load(&myPlayer);
 }
 
-void game_update () {
-	Player_update(&myPlayer);
+void game_update (float dt) {
+	Player_update(&myPlayer, dt);
 
 }
 

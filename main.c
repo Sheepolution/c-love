@@ -1,25 +1,32 @@
-// Example program:
-// Using SDL2 to create an application window
-
 #include <SDL2/SDL.h>
 #include <stdio.h>
-#include "love.h"
-
-love_image test;
-
-void update();
-void draw();
+#include <math.h>
+#include "love.c"
+#include "animation.c"
+#include "player.c"
+#include "game.c"
 
 int main(int argc, char* argv[]) {
-    // love_init(300,300,update);
-    love_init(300,300,&update,&draw);
-    test = love_graphics_newImage();
+    love_init(500,300);
     return 0;
 }
 
-void update() {
+void love_load() {
+    game_load();
 }
 
-void draw() {
-    love_graphics_draw(test);
+void love_update(float dt) {
+    game_update(dt);
+}
+
+void love_draw() {
+    game_draw();
+}
+
+void love_keypressed(char *key) {
+
+}
+
+void love_keyreleased(char *key) {
+	
 }
