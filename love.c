@@ -9,11 +9,10 @@ void love_init(int width, int height) {
     SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL2
 
     // Create an application window with the following settings:
-    love_window = SDL_CreateWindow("_float", 50, 50, width, height, 0);
+    love_window = SDL_CreateWindow("_float", 600, 300, width, height, 0);
 
     love_renderer = SDL_CreateRenderer(love_window, -1, SDL_RENDERER_ACCELERATED);
     love_load();
-	printf("Oke en nu... \n");
 
 	float deltaTime;
 	int current, last;
@@ -27,7 +26,7 @@ void love_init(int width, int height) {
 	                break;
 	            }
 	            if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-	            	love_setKey(e);
+	            	love_keyboard__setKey(e);
 	         	}
 	        }
 
@@ -38,6 +37,7 @@ void love_init(int width, int height) {
 
 	        love_update(deltaTime);
 
+	        love_keyboard__updateKeys();
 
 	        SDL_RenderClear(love_renderer);
 	        love_draw();
@@ -129,193 +129,177 @@ void love_graphics_drawqEx(love_image img, love_quad quad, float _x, float _y, d
 
 //love_keyboard
 
-void love_setKey(SDL_Event e) {
-	int key = e.key.keysym.sym;
-	switch (key) {
-		case SDLK_a : love_keyState(e,&love_keys.a);
-		break;
-		case SDLK_b : love_keyState(e,&love_keys.b);
-		break;
-		case SDLK_c : love_keyState(e,&love_keys.c);
-		break;
-		case SDLK_d : love_keyState(e,&love_keys.d);
-		break;
-		case SDLK_e : love_keyState(e,&love_keys.e);
-		break;
-		case SDLK_f : love_keyState(e,&love_keys.f);
-		break;
-		case SDLK_g : love_keyState(e,&love_keys.g);
-		break;
-		case SDLK_h : love_keyState(e,&love_keys.h);
-		break;
-		case SDLK_i : love_keyState(e,&love_keys.i);
-		break;
-		case SDLK_j : love_keyState(e,&love_keys.j);
-		break;
-		case SDLK_k : love_keyState(e,&love_keys.k);
-		break;
-		case SDLK_l : love_keyState(e,&love_keys.l);
-		break;
-		case SDLK_m : love_keyState(e,&love_keys.m);
-		break;
-		case SDLK_n : love_keyState(e,&love_keys.n);
-		break;
-		case SDLK_o : love_keyState(e,&love_keys.o);
-		break;
-		case SDLK_p : love_keyState(e,&love_keys.p);
-		break;
-		case SDLK_q : love_keyState(e,&love_keys.q);
-		break;
-		case SDLK_r : love_keyState(e,&love_keys.r);
-		break;
-		case SDLK_s : love_keyState(e,&love_keys.s);
-		break;
-		case SDLK_t : love_keyState(e,&love_keys.t);
-		break;
-		case SDLK_u : love_keyState(e,&love_keys.u);
-		break;
-		case SDLK_v : love_keyState(e,&love_keys.v);
-		break;
-		case SDLK_w : love_keyState(e,&love_keys.w);
-		break;
-		case SDLK_x : love_keyState(e,&love_keys.x);
-		break;
-		case SDLK_z : love_keyState(e,&love_keys.z);
-		break;
-		case SDLK_LSHIFT : love_keyState(e,&love_keys.lshift);
-		break;
-		case SDLK_LCTRL : love_keyState(e,&love_keys.lctrl);
-		break;
-		case SDLK_SPACE : love_keyState(e,&love_keys.space);
-		break;
-		case SDLK_LEFT : love_keyState(e,&love_keys.left);
-		break;
-		case SDLK_RIGHT : love_keyState(e,&love_keys.right);
-		break;
-		case SDLK_UP : love_keyState(e,&love_keys.up);
-		break;
-		case SDLK_DOWN : love_keyState(e,&love_keys.down);
-		break;
-	}
-}
+void love_keyboard__keyState(SDL_Event e,int *key) {
 
-void love_keyState(SDL_Event e,int *key) {
 	if (e.type == SDL_KEYDOWN) {
-		if (*key != 1 && *key !=2) {
-			*key = 1;
-		}
-		else {
+		if (*key != 3) {
 			*key = 2;
 		}
 	}
 	else if (e.type == SDL_KEYUP) {
-		if (*key == 1 || *key == 2) {
-			*key = 3;
-		}
-		else {
-			*key = 0;
-		}
+		*key = 1;
 	}
 }
 
-int love_keyboard_isDown(char *str) {
-	if (str == "a") {
-		return love_keys.a==1 || love_keys.a==2;
+void love_keyboard__update(int *key) {
+	if (*key == 2) {
+		*key = 3;
 	}
-	else if (str == "b") {
-		return love_keys.b==1 || love_keys.b==2;
-	}
-	else if (str == "c") {
-		return love_keys.c==1 || love_keys.c==2;
-	}
-	else if (str == "d") {
-		return love_keys.d==1 || love_keys.d==2;
-	}
-	else if (str == "e") {
-		return love_keys.e==1 || love_keys.e==2;
-	}
-	else if (str == "f") {
-		return love_keys.f==1 || love_keys.f==2;
-	}
-	else if (str == "g") {
-		return love_keys.g==1 || love_keys.g==2;
-	}
-	else if (str == "h") {
-		return love_keys.h==1 || love_keys.h==2;
-	}
-	else if (str == "i") {
-		return love_keys.i==1 || love_keys.i==2;
-	}
-	else if (str == "j") {
-		return love_keys.j==1 || love_keys.j==2;
-	}
-	else if (str == "k") {
-		return love_keys.k==1 || love_keys.k==2;
-	}
-	else if (str == "l") {
-		return love_keys.l==1 || love_keys.l==2;
-	}
-	else if (str == "m") {
-		return love_keys.m==1 || love_keys.m==2;
-	}
-	else if (str == "n") {
-		return love_keys.n==1 || love_keys.n==2;
-	}
-	else if (str == "o") {
-		return love_keys.o==1 || love_keys.o==2;
-	}
-	else if (str == "p") {
-		return love_keys.p==1 || love_keys.p==2;
-	}
-	else if (str == "q") {
-		return love_keys.q==1 || love_keys.q==2;
-	}
-	else if (str == "r") {
-		return love_keys.r==1 || love_keys.r==2;
-	}
-	else if (str == "s") {
-		return love_keys.s==1 || love_keys.s==2;
-	}
-	else if (str == "t") {
-		return love_keys.t==1 || love_keys.t==2;
-	}
-	else if (str == "u") {
-		return love_keys.u==1 || love_keys.u==2;
-	}
-	else if (str == "v") {
-		return love_keys.v==1 || love_keys.v==2;
-	}
-	else if (str == "w") {
-		return love_keys.w==1 || love_keys.w==2;
-	}
-	else if (str == "x") {
-		return love_keys.x==1 || love_keys.x==2;
-	}
-	else if (str == "y") {
-		return love_keys.y==1 || love_keys.y==2;
-	}
-	else if (str == "z") {
-		return love_keys.z==1 || love_keys.z==2;
-	}
-	else if (str == "left") {
-		return love_keys.left==1 || love_keys.left==2;
-	}
-	else if (str == "right") {
-		return love_keys.right==1 || love_keys.right==2;
-	}
-	else if (str == "up") {
-		return love_keys.up==1 || love_keys.up==2;
-	}
-	else if (str == "down") {
-		return love_keys.down==1 || love_keys.down==2;
-	}
-	else if (str == "space") {
-		return love_keys.space==1 || love_keys.space==2;
-	}
-	else if (str == "shift") {
-		return love_keys.lshift==1 || love_keys.lshift==2;
-	}
-	else if (str == "lctrl") {
-		return love_keys.lctrl==1 || love_keys.lctrl==2;
+	if (*key == 1) {
+		*key = 0;
 	}
 }
+
+void love_keyboard__setKey(SDL_Event e) {
+	SDL_Keycode key = e.key.keysym.sym;
+	switch (key) {
+		case SDLK_a : love_keyboard__keyState(e,&love_keys.a); break;
+		case SDLK_b : love_keyboard__keyState(e,&love_keys.b); break;
+		case SDLK_c : love_keyboard__keyState(e,&love_keys.c); break;
+		case SDLK_d : love_keyboard__keyState(e,&love_keys.d); break;
+		case SDLK_e : love_keyboard__keyState(e,&love_keys.e); break;
+		case SDLK_f : love_keyboard__keyState(e,&love_keys.f); break;
+		case SDLK_g : love_keyboard__keyState(e,&love_keys.g); break;
+		case SDLK_h : love_keyboard__keyState(e,&love_keys.h); break;
+		case SDLK_i : love_keyboard__keyState(e,&love_keys.i); break;
+		case SDLK_j : love_keyboard__keyState(e,&love_keys.j); break;
+		case SDLK_k : love_keyboard__keyState(e,&love_keys.k); break;
+		case SDLK_l : love_keyboard__keyState(e,&love_keys.l); break;
+		case SDLK_m : love_keyboard__keyState(e,&love_keys.m); break;
+		case SDLK_n : love_keyboard__keyState(e,&love_keys.n); break;
+		case SDLK_o : love_keyboard__keyState(e,&love_keys.o); break;
+		case SDLK_p : love_keyboard__keyState(e,&love_keys.p); break;
+		case SDLK_q : love_keyboard__keyState(e,&love_keys.q); break;
+		case SDLK_r : love_keyboard__keyState(e,&love_keys.r); break;
+		case SDLK_s : love_keyboard__keyState(e,&love_keys.s); break;
+		case SDLK_t : love_keyboard__keyState(e,&love_keys.t); break;
+		case SDLK_u : love_keyboard__keyState(e,&love_keys.u); break;
+		case SDLK_v : love_keyboard__keyState(e,&love_keys.v); break;
+		case SDLK_w : love_keyboard__keyState(e,&love_keys.w); break;
+		case SDLK_x : love_keyboard__keyState(e,&love_keys.x); break;
+		case SDLK_y : love_keyboard__keyState(e,&love_keys.y); break;
+		case SDLK_z : love_keyboard__keyState(e,&love_keys.z); break;
+		case SDLK_UP : love_keyboard__keyState(e,&love_keys.up); break;
+		case SDLK_RIGHT : love_keyboard__keyState(e,&love_keys.right); break;
+		case SDLK_DOWN : love_keyboard__keyState(e,&love_keys.down); break;
+		case SDLK_LEFT : love_keyboard__keyState(e,&love_keys.left); break;
+	}
+}
+
+void love_keyboard__updateKeys() {
+	love_keyboard__update( &love_keys.a);
+	love_keyboard__update( &love_keys.b);
+	love_keyboard__update( &love_keys.c);
+	love_keyboard__update( &love_keys.d);
+	love_keyboard__update( &love_keys.e);
+	love_keyboard__update( &love_keys.f);
+	love_keyboard__update( &love_keys.g);
+	love_keyboard__update( &love_keys.h);
+	love_keyboard__update( &love_keys.i);
+	love_keyboard__update( &love_keys.j);
+	love_keyboard__update( &love_keys.k);
+	love_keyboard__update( &love_keys.l);
+	love_keyboard__update( &love_keys.m);
+	love_keyboard__update( &love_keys.n);
+	love_keyboard__update( &love_keys.o);
+	love_keyboard__update( &love_keys.p);
+	love_keyboard__update( &love_keys.q);
+	love_keyboard__update( &love_keys.r);
+	love_keyboard__update( &love_keys.s);
+	love_keyboard__update( &love_keys.t);
+	love_keyboard__update( &love_keys.u);
+	love_keyboard__update( &love_keys.v);
+	love_keyboard__update( &love_keys.w);
+	love_keyboard__update( &love_keys.x);
+	love_keyboard__update( &love_keys.y);
+	love_keyboard__update( &love_keys.z);
+	love_keyboard__update( &love_keys.left);
+	love_keyboard__update( &love_keys.right);
+	love_keyboard__update( &love_keys.up);
+	love_keyboard__update( &love_keys.down);
+	love_keyboard__update( &love_keys.space);
+	love_keyboard__update( &love_keys.lshift);
+	love_keyboard__update( &love_keys.lctrl);
+}
+
+int love_keyboard_isDown(char *key) {
+	if (key == "a") { return love_keys.a >= 2 ; }
+	else if (key == "b") { return love_keys.b >= 2 ; }
+	else if (key == "c") { return love_keys.c >= 2 ; }
+	else if (key == "d") { return love_keys.d >= 2 ; }
+	else if (key == "e") { return love_keys.e >= 2 ; }
+	else if (key == "f") { return love_keys.f >= 2 ; }
+	else if (key == "g") { return love_keys.g >= 2 ; }
+	else if (key == "h") { return love_keys.h >= 2 ; }
+	else if (key == "i") { return love_keys.i >= 2 ; }
+	else if (key == "j") { return love_keys.j >= 2 ; }
+	else if (key == "k") { return love_keys.k >= 2 ; }
+	else if (key == "l") { return love_keys.l >= 2 ; }
+	else if (key == "m") { return love_keys.m >= 2 ; }
+	else if (key == "n") { return love_keys.n >= 2 ; }
+	else if (key == "o") { return love_keys.o >= 2 ; }
+	else if (key == "p") { return love_keys.p >= 2 ; }
+	else if (key == "q") { return love_keys.q >= 2 ; }
+	else if (key == "r") { return love_keys.r >= 2 ; }
+	else if (key == "s") { return love_keys.s >= 2 ; }
+	else if (key == "t") { return love_keys.t >= 2 ; }
+	else if (key == "u") { return love_keys.u >= 2 ; }
+	else if (key == "v") { return love_keys.v >= 2 ; }
+	else if (key == "w") { return love_keys.w >= 2 ; }
+	else if (key == "x") { return love_keys.x >= 2 ; }
+	else if (key == "y") { return love_keys.y >= 2 ; }
+	else if (key == "z") { return love_keys.z >= 2 ; }
+	else if (key == "left") { return love_keys.left >= 2 ; }
+	else if (key == "right") { return love_keys.right >= 2 ; }
+	else if (key == "up") { return love_keys.up >= 2 ; }
+	else if (key == "down") { return love_keys.down >= 2 ; }
+	else if (key == "space") { return love_keys.space >= 2 ; }
+	else if (key == "shift") { return love_keys.lshift >= 2 ; }
+	else if (key == "lctrl") { return love_keys.lctrl >= 2 ; }
+}
+
+int love_keyboard_isPressed(char *key) {
+	if (key == "a") { return love_keys.a==2;}
+	else if (key == "b") { return love_keys.b==2;}
+	else if (key == "c") { return love_keys.c==2;}
+	else if (key == "d") { return love_keys.d==2;}
+	else if (key == "e") { return love_keys.e==2;}
+	else if (key == "f") { return love_keys.f==2;}
+	else if (key == "g") { return love_keys.g==2;}
+	else if (key == "h") { return love_keys.h==2;}
+	else if (key == "i") { return love_keys.i==2;}
+	else if (key == "j") { return love_keys.j==2;}
+	else if (key == "k") { return love_keys.k==2;}
+	else if (key == "l") { return love_keys.l==2;}
+	else if (key == "m") { return love_keys.m==2;}
+	else if (key == "n") { return love_keys.n==2;}
+	else if (key == "o") { return love_keys.o==2;}
+	else if (key == "p") { return love_keys.p==2;}
+	else if (key == "q") { return love_keys.q==2;}
+	else if (key == "r") { return love_keys.r==2;}
+	else if (key == "s") { return love_keys.s==2;}
+	else if (key == "t") { return love_keys.t==2;}
+	else if (key == "u") { return love_keys.u==2;}
+	else if (key == "v") { return love_keys.v==2;}
+	else if (key == "w") { return love_keys.w==2;}
+	else if (key == "x") { return love_keys.x==2;}
+	else if (key == "y") { return love_keys.y==2;}
+	else if (key == "z") { return love_keys.z==2;}
+	else if (key == "left") { return love_keys.left==2;}
+	else if (key == "right") { return love_keys.right==2;}
+	else if (key == "up") { return love_keys.up==2;}
+	else if (key == "down") { return love_keys.down==2;}
+	else if (key == "space") { return love_keys.space==2;}
+	else if (key == "shift") { return love_keys.lshift==2;}
+	else if (key == "lctrl") { return love_keys.lctrl==2;}
+}
+
+//Point
+////////////////
+
+void love_point_new(love_point *self, float _x, float _y) {
+	self -> x = _x;
+	self -> y = _y;
+}
+
+

@@ -4,9 +4,11 @@
 #include "love.c"
 #include "animation.c"
 #include "player.c"
+#include "bullet.c"
 #include "game.c"
 
 int main(int argc, char* argv[]) {
+	int test = 4;
     love_init(500,300);
     return 0;
 }
@@ -24,7 +26,7 @@ void love_draw() {
 }
 
 void love_keypressed(char *key) {
-
+	
 }
 
 void love_keyreleased(char *key) {

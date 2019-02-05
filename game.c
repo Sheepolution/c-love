@@ -2,7 +2,7 @@
 
 Player myPlayer;
 void game_load () {
-	Player_load(&myPlayer);
+	Player_new(&myPlayer);
 }
 
 void game_update (float dt) {

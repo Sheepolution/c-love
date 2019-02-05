@@ -48,3 +48,9 @@ void Animation_draw(Animation *self,float x, float y) {
 void Animation_drawEx(Animation *self,float x, float y, double r, float sx, float sy, float ox, float oy) {
 	love_graphics_drawqEx(self->img,self->quads[self->frame],x,y,r,sx,sy,ox,oy);
 }
+
+void Animation_set(Animation *self,float start, float end, float speed) {
+	self->start = start;
+	self->stop = end;
+	self->speed = speed;
+}
